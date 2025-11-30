@@ -39,6 +39,8 @@ http_api_server = "pytest_querys.querys.http:HttpQueryManger"
 
 [project.entry-points."session.querys.pytest_querys"]
 
+[project.entry-points."pytest11"]
+pytest-querys = "pytest_querys.plugin"
 
 [build-system]
 requires = ["setuptools>=45", "wheel"]
