@@ -1,6 +1,6 @@
 from enum import Enum, unique
 
-from pytest_querys.category import ServiceCategoryManager
+from pytest_querys.core.category import ServiceCategoryManager
 
 
 @unique
