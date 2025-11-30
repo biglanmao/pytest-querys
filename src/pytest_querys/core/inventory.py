@@ -1,4 +1,3 @@
-import copy
 from functools import singledispatchmethod
 
 
@@ -41,4 +40,3 @@ class ServicesInventory:
     @singledispatchmethod
     def get_group_inventory(self, name):
         raise NotImplementedError("Unsupported types")
-
