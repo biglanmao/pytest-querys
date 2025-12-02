@@ -1,9 +1,10 @@
+from functools import singledispatchmethod
+
 import requests
 from urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
 from pytest_query.core.manger import QueryManger
 from pytest_query.queries import ServiceCategory
-from pytest_query.core.registry import service_manger
 
 
 class HttpQueryManger(QueryManger):
@@ -27,13 +28,24 @@ class HttpQueryManger(QueryManger):
         if not config.get("cert_verify", True):
             session.verify = False
 
+    @singledispatchmethod
     def get_session(self, name):
+        raise NotImplementedError("Unsupported types")
+
+    @get_session.register
+    def get_session_from_name(self, name: str):
         session = requests.Session()
         service_config = self.inventory.get_query_config(self.SERVICE_CATEGORY, name)
         self._configure_session(session, service_config)
         return session
 
-    def get_query(self, name):
+    @get_session.register
+    def get_session_from_config(self, config: dict):
+        session = requests.Session()
+        self._configure_session(session, config)
+        return session
+
+    def get_query(self, name, inventory=None):
         pass
 
     def get_uri_prefix(self, config):
